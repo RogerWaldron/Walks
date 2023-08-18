@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Walks.API.Data;
+using Walks.API.Models.Domain;
+using Walks.API.Models.Dtos;
+using Walks.API.Services.RegionService;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,50 +12,46 @@ namespace Walks.API.Controllers
     [Route("api/[controller]")]
     public class RegionsController : Controller
     {
-        private readonly WalksDbContext _dbContext;
+        private readonly IRegionService _regionService;
 
-        public RegionsController(WalksDbContext dbContext)
+        public RegionsController(IRegionService regionService)
         {
-            this._dbContext = dbContext;
+            _regionService = regionService;
         }
 
         // GET: api/values
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var regions = _dbContext.Regions.ToList();
-
-            return Ok(regions);
+            return Ok(await _regionService.GetRegions());
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public IActionResult GetByid(Guid id)
+        public async Task<IActionResult> GetByid(Guid id)
         {
-            var region = _dbContext.Regions.FirstOrDefault(x => x.Id == id);
-
-            if (region == null)
-                return NotFound();
-
-            return Ok(region);
+            return Ok(await _regionService.GetRegionById(id));
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public async Task<IActionResult> Post([FromBody]RegionCreateDto regionCreateDto)
         {
+            return Ok(await _regionService.CreateRegion(regionCreateDto));
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public async Task<IActionResult> Put(Guid id, [FromBody]RegionUpdateDto regionUpdateDto)
         {
+            return Ok(await _regionService.UpdateRegion(regionUpdateDto));
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
+            return Ok(await _regionService.DeleteRegion(id));
         }
     }
 }
