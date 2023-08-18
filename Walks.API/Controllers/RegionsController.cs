@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Walks.API.Data;
+using Walks.API.Models;
 using Walks.API.Models.Domain;
 using Walks.API.Models.Dtos;
 using Walks.API.Services.RegionService;
@@ -44,14 +45,22 @@ namespace Walks.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id, [FromBody]RegionUpdateDto regionUpdateDto)
         {
-            return Ok(await _regionService.UpdateRegion(regionUpdateDto));
+            ServiceResponse<RegionDto> response = await _regionService.UpdateRegion(regionUpdateDto);
+            if (response.Data == null)
+                return NotFound(response);
+
+            return Ok(response);
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            return Ok(await _regionService.DeleteRegion(id));
+            ServiceResponse<List<RegionDto>> response = await _regionService.DeleteRegion(id);
+            if (response.Data == null)
+                return NotFound(response);
+
+            return Ok(response);
         }
     }
 }

@@ -16,6 +16,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.10" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,6 +25,8 @@
     <None Remove="Data\" />
     <None Remove="Models\Dtos\" />
     <None Remove="Models\Domain\" />
+    <None Remove="Services\" />
+    <None Remove="Services\RegionService\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -31,5 +34,7 @@
     <Folder Include="Data\" />
     <Folder Include="Models\Dtos\" />
     <Folder Include="Models\Domain\" />
+    <Folder Include="Services\" />
+    <Folder Include="Services\RegionService\" />
   </ItemGroup>
 </Project>
