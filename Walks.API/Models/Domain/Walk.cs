@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Walks.API.Models
+namespace Walks.API.Models.Domain
 {
 	public class Walk
 	{

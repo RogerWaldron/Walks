@@ -1,7 +1,7 @@
 ﻿using System;
-namespace Walks.API.Models
+namespace Walks.API.Models.Dtos
 {
-	public class Region
+	public class RegionUpdateDto
 	{
         public Guid Id { get; set; }
         public string Code { get; set; }
