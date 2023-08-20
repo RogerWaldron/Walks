@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Walks.API.Data;
-using Walks.API.Repositories.Region;
+using Walks.API.Repositories;
 using Walks.API.Services.RegionService;
 
 var builder = WebApplication.CreateBuilder(args);
