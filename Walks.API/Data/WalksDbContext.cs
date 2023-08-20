@@ -1,6 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Walks.API.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Walks.API.Models.Domain;
 
 namespace Walks.API.Data
 {
