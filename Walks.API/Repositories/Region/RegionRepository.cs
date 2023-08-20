@@ -1,6 +1,8 @@
-﻿using Walks.API.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Walks.API.Data;
+using Walks.API.Models.Domain;
 
-namespace Walks.API.Repositories.Region
+namespace Walks.API.Repositories
 {
     public class RegionRepository : IRegionRepository
     {
@@ -96,6 +98,11 @@ namespace Walks.API.Repositories.Region
         public async Task<ICollection<Region>> GetClosedRegionsAsync()
         {
             return await _dataContext.Regions.Where(r => r.IsClosed == true).ToListAsync();
+        }
+
+        Task<ICollection<Models.Domain.Region>> IRegionRepository.GetAllRegionsAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }
