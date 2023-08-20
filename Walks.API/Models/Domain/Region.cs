@@ -1,12 +1,26 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Walks.API.Models.Domain
 {
 	public class Region
 	{
-        public Guid Id { get; set; }
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public string? RegionImgUrl { get; set; }
+        public bool IsDeleted { get; set; }
+        public bool IsClosed { get; set; }
+
+        // Foreign Key
+        [Required]
+        public int WalkId { get; set; }
+
+        [ForeignKey("WalkId")]
+        public Walk Walk { get; set; }
+
+        // Foreign Key
+        [Required]
+        public int DifficultyId { get; set; }
+
+        [ForeignKey("DifficultyId")]
+        public Difficulty Difficulty { get; set; }
     }
 }
 

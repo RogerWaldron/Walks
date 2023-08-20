@@ -27,6 +27,7 @@
     <None Remove="Models\Domain\" />
     <None Remove="Services\" />
     <None Remove="Services\RegionService\" />
+    <None Remove="Mappings\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -36,5 +37,6 @@
     <Folder Include="Models\Domain\" />
     <Folder Include="Services\" />
     <Folder Include="Services\RegionService\" />
+    <Folder Include="Mappings\" />
   </ItemGroup>
 </Project>
