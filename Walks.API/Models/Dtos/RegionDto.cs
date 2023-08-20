@@ -1,5 +1,4 @@
-﻿using System;
-namespace Walks.API.Models.Dtos
+﻿namespace Walks.API.Models.Dtos
 {
 	public class RegionDto
 	{
@@ -7,6 +6,7 @@ namespace Walks.API.Models.Dtos
         public string Code { get; set; }
         public string Name { get; set; }
         public string? RegionImgUrl { get; set; }
+        public bool IsClosed { get; set; }
     }
 }
 
