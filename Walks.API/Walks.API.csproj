@@ -28,6 +28,9 @@
     <None Remove="Services\" />
     <None Remove="Services\RegionService\" />
     <None Remove="Mappings\" />
+    <None Remove="Repositories\" />
+    <None Remove="Repositories\Contracts\" />
+    <None Remove="Repositories\Region\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -38,5 +41,8 @@
     <Folder Include="Services\" />
     <Folder Include="Services\RegionService\" />
     <Folder Include="Mappings\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="Repositories\Contracts\" />
+    <Folder Include="Repositories\Region\" />
   </ItemGroup>
 </Project>
