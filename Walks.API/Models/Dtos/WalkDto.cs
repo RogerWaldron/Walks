@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Walks.API.Models.Domain;
 
-namespace Walks.API.Models.Domain
+namespace Walks.API.Models.Dtos
 {
-	public class Walk
+	public class WalkDto
 	{
         [Key]
         public int Id { get; set; }
@@ -20,11 +22,10 @@ namespace Walks.API.Models.Domain
         public string? WalkImgUrl { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsClosed { get; set; }
-
         public DateTimeOffset CreatedDate { get; set; }
 
         [ForeignKey("DifficultyId")]
-        public Difficulty Difficulty { get; set; }
+        public DifficultyDto Difficulty { get; set; }
     }
 }
 

@@ -90,19 +90,14 @@ namespace Walks.API.Repositories
             return await IsSuccessful();
         }
 
-        private async Task<bool> IsSuccessful()
-        {
-            return await _dataContext.SaveChangesAsync() >= 0 ? true : false;
-        }
-
         public async Task<ICollection<Region>> GetClosedRegionsAsync()
         {
             return await _dataContext.Regions.Where(r => r.IsClosed == true).ToListAsync();
         }
 
-        Task<ICollection<Models.Domain.Region>> IRegionRepository.GetAllRegionsAsync()
+        private async Task<bool> IsSuccessful()
         {
-            throw new NotImplementedException();
+            return await _dataContext.SaveChangesAsync() >= 0 ? true : false;
         }
     }
 }
