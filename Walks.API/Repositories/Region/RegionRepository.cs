@@ -50,7 +50,7 @@ namespace Walks.API.Repositories
 
         public async Task<ICollection<Region>> GetAllRegionsAsync()
         {
-            return await _dataContext.Regions.ToListAsync();
+            return await _dataContext.Regions.Include("Walk").ToListAsync();
         }
 
         public async Task<ICollection<Region>> GetDeletedRegionsAsync()
@@ -58,12 +58,12 @@ namespace Walks.API.Repositories
             return await _dataContext.Regions.Where(r => r.IsDeleted == true).ToListAsync();
         }
 
-        public async Task<Region> GetRegionByGuidAsync(Guid GUID)
+        public async Task<Region?> GetRegionByGuidAsync(Guid GUID)
         {
-            return await _dataContext.Regions.FirstAsync(r => r.GUID == GUID);
+            return await _dataContext.Regions.Include("Walk").FirstOrDefaultAsync(r => r.GUID == GUID);
         }
 
-        public async Task<Region> GetRegionByIdAsync(int Id)
+        public async Task<Region?> GetRegionByIdAsync(int Id)
         {
             return await _dataContext.Regions.FirstAsync(r => r.Id == Id);
         }
