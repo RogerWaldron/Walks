@@ -1,7 +1,5 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using Walks.API.Data;
-using Walks.API.Models;
 using Walks.API.Models.Domain;
 using Walks.API.Models.Dtos;
 using Walks.API.Repositories;
@@ -46,7 +44,7 @@ namespace Walks.API.Services.RegionService
                 {
                     _response.Success = false;
                     _response.Data = null;
-                    _response.Error = "Repository Error";
+                    _response.State = ValidStates.Repository;
 
                     return _response;
                 }
@@ -109,6 +107,7 @@ namespace Walks.API.Services.RegionService
         public async Task<ServiceResponse<RegionDto>> GetRegionByIdAsync(int id)
         {
             ServiceResponse<RegionDto> _response = new();
+
             try
             {
                 var _region = await _repository.GetRegionByIdAsync(id);
@@ -116,6 +115,7 @@ namespace Walks.API.Services.RegionService
                 if (_region == null)
                 {
                     _response.Success = false;
+                    _response.Data = null;
                     _response.State = ValidStates.NotFound;
 
                     return _response;
@@ -143,6 +143,17 @@ namespace Walks.API.Services.RegionService
             try
             {
                 var _regions = await _repository.GetRegionsAsync();
+
+                if (_regions == null)
+                {
+                    _response.Success = false;
+                    _response.Data = null;
+                    _response.Error = "Failed to retrieve any Region records.";
+                    _response.State = ValidStates.Repository;
+
+                    return _response;
+                }
+
                 List<Region> _regionsDto = new();
 
                 _response.Success = true;
