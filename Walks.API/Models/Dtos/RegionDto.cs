@@ -12,12 +12,7 @@ namespace Walks.API.Models.Dtos
         public string? RegionImgUrl { get; set; }
         public bool IsClosed { get; set; }
 
-        // Foreign Key
-        [Required]
-        public int WalkId { get; set; }
-
-        [ForeignKey("WalkId")]
-        public WalkDto Walk { get; set; }
+        public ICollection<Walk> Walks { get; set; }
     }
 }
 

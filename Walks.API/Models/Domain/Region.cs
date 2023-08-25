@@ -24,7 +24,7 @@ namespace Walks.API.Models.Domain
 
         // Navigation
         [ForeignKey("WalkId")]
-        public Walk Walk { get; set; }
+        public ICollection<Walk> Walks { get; set; }
     }
 }
 
