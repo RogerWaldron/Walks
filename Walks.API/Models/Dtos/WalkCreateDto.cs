@@ -6,7 +6,7 @@ using Walks.API.Models.Domain;
 
 namespace Walks.API.Models.Dtos
 {
-	public class WalkDto
+	public class WalkCreateDto
 	{
         [Required]
         public Guid GUID { get; set; }
@@ -21,8 +21,10 @@ namespace Walks.API.Models.Dtos
         public string? WalkImgUrl { get; set; }
         public bool IsClosed { get; set; }
 
+        public DateTimeOffset CreatedDate { get; set; }
+
         [ForeignKey("DifficultyId")]
-        public DifficultyDto Difficulty { get; set; }
+        public Difficulty Difficulty { get; set; }
     }
 }
 

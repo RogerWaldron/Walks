@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Walks.API.Models.Domain
@@ -16,9 +17,9 @@ namespace Walks.API.Models.Domain
         [Display(Name = "RegionName")]
         public string RegionName { get; set; }
         [Required]
-        public string Code { get; set; } = "NSW";
+        public string Code { get; set; }
         public string? RegionImgUrl { get; set; }
-        public DateTimeOffset CreatedDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; } 
         public bool IsDeleted { get; set; }
         public bool IsClosed { get; set; }
 
