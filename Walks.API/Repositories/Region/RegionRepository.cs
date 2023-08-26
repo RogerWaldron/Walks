@@ -63,13 +63,15 @@ namespace Walks.API.Repositories
         public async Task<Region> GetRegionByGuidAsync(Guid GUID)
         {
             return await _dataContext.Regions
-                .Include(r => r.Walks)
-                .FirstOrDefaultAsync(r => r.GUID == GUID);
+                            .Include(r => r.Walks)
+                            .FirstOrDefaultAsync(r => r.GUID == GUID);
         }
 
         public async Task<Region> GetRegionByIdAsync(int Id)
         {
-            return await _dataContext.Regions.FindAsync(Id);
+            return await _dataContext.Regions
+                .Include(r => r.Walks)
+                .FirstOrDefaultAsync(r => r.Id == Id);
         }
 
         public async Task<ICollection<Region>> GetRegionsAsync()
