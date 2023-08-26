@@ -33,14 +33,14 @@ namespace Walks.API.Repositories
         /// </summary>
         /// <param name="Guid"></param>
         /// <returns>Models.Domain.Region</returns>
-        Task<Region?> GetRegionByGuidAsync(Guid GUID);
+        Task<Region> GetRegionByGuidAsync(Guid GUID);
 
         /// <summary>
         /// Return a region record
         /// </summary>
         /// <param name="Id"></param>
         /// <returns>Models.Domain.Region</returns>
-        Task<Region?> GetRegionByIdAsync(int Id);
+        Task<Region> GetRegionByIdAsync(int Id);
 
         /// <summary>
         /// Return True or False if record exists

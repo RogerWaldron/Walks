@@ -60,14 +60,14 @@ namespace Walks.API.Repositories
             return await _dataContext.Regions.Where(r => r.IsDeleted == true).ToListAsync();
         }
 
-        public async Task<Region?> GetRegionByGuidAsync(Guid GUID)
+        public async Task<Region> GetRegionByGuidAsync(Guid GUID)
         {
             return await _dataContext.Regions
                 .Include(r => r.Walks)
-                .SingleOrDefaultAsync(r => r.GUID == GUID);
+                .FirstOrDefaultAsync(r => r.GUID == GUID);
         }
 
-        public async Task<Region?> GetRegionByIdAsync(int Id)
+        public async Task<Region> GetRegionByIdAsync(int Id)
         {
             return await _dataContext.Regions.FindAsync(Id);
         }
