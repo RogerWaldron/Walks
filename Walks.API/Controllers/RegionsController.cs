@@ -27,23 +27,6 @@ namespace Walks.API.Controllers
         {
             ServiceResponse<List<RegionDto>> _response = await _regionService.GetAllRegionsAsync();
 
-            if (_response.Success == false)
-            {
-                if (_response.State == ValidStates.Error)
-                {
-                    ModelState.AddModelError("", "Service Error occurred when trying to get all regions");
-
-                    return BadRequest(ModelState);
-                }
-
-                if (_response.State == ValidStates.Repository)
-                {
-                    ModelState.AddModelError("", "Repository Error occured when trying to get all regions");
-
-                    return BadRequest(ModelState);   
-                }
-            }
-
             return Ok(_response);
         }
 
@@ -87,7 +70,7 @@ namespace Walks.API.Controllers
 
             if (_response.Success == false && _response.State == ValidStates.Repository)
             {
-                ModelState.AddModelError("rror", $"Repository layer could not create region: {regionCreateDto}");
+                ModelState.AddModelError("", $"Repository layer could not create region: {regionCreateDto}");
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ModelState);
             }
@@ -105,7 +88,9 @@ namespace Walks.API.Controllers
                 return Ok(_response);
             }
 
-            return CreatedAtAction(nameof(GetById), new { Id = _response.Data.Id}, _response);
+            var _id = await _regionService.GetRegionIdByGuidAsync(_response.Data.GUID);
+
+            return CreatedAtAction(nameof(GetById), new { regionId = _id }, _response);
         }
 
         // PUT api/values/5
