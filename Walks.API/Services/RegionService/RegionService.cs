@@ -37,10 +37,11 @@ namespace Walks.API.Services.RegionService
                     GUID = Guid.NewGuid(),
                     RegionName = regionCreateDto.RegionName,
                     Code = regionCreateDto.Code,
+                    RegionImgUrl = regionCreateDto.RegionImgUrl,
                     CreatedDate = DateTimeOffset.UtcNow,
                     IsClosed = regionCreateDto.IsClosed,
-                    IsDeleted = false
-                    
+                    IsDeleted = false,
+                    Walks = new List<Walk>()
                 };
 
 
