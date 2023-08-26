@@ -28,6 +28,8 @@ namespace Walks.API.Services.RegionService
                     _response.Success = false;
                     _response.Data = null;
                     _response.State = ValidStates.Exists;
+
+                    return _response;
                 }
 
                 Region _newRegion = new()
@@ -36,9 +38,11 @@ namespace Walks.API.Services.RegionService
                     RegionName = regionCreateDto.RegionName,
                     Code = regionCreateDto.Code,
                     CreatedDate = DateTimeOffset.UtcNow,
-                    IsClosed = false,
+                    IsClosed = regionCreateDto.IsClosed,
                     IsDeleted = false
+                    
                 };
+
 
                 if (!await _repository.CreateRegionAsync(_newRegion))
                 {
@@ -49,8 +53,9 @@ namespace Walks.API.Services.RegionService
                     return _response;
                 }
 
+                var _created = await _repository.GetRegionByGuidAsync(_newRegion.GUID);
                 _response.Success = true;
-                _response.Data = _mapper.Map<RegionDto>(_newRegion);
+                _response.Data = _mapper.Map<RegionDto>(_created);
                 _response.State = ValidStates.Created;
             }
             catch (Exception ex)
@@ -144,16 +149,6 @@ namespace Walks.API.Services.RegionService
             {
                 var _regions = await _repository.GetRegionsAsync();
 
-                if (_regions == null)
-                {
-                    _response.Success = false;
-                    _response.Data = null;
-                    _response.Error = "Failed to retrieve any Region records.";
-                    _response.State = ValidStates.Repository;
-
-                    return _response;
-                }
-
                 List<Region> _regionsDto = new();
 
                 _response.Success = true;
@@ -177,7 +172,7 @@ namespace Walks.API.Services.RegionService
 
             try
             {
-                var _regionExists = await _repository.GetRegionByGuidAsync(regionUpdateDto.GUID);
+                Region _regionExists = await _repository.GetRegionByGuidAsync(regionUpdateDto.GUID);
 
                 if (_regionExists == null)
                 {
@@ -216,6 +211,13 @@ namespace Walks.API.Services.RegionService
             }
 
             return _response;
+        }
+
+        public async Task<int> GetRegionIdByGuidAsync(Guid Guid)
+        {
+            Region _region = await _repository.GetRegionByGuidAsync(Guid);
+
+            return _region.Id;
         }
     }
 }
