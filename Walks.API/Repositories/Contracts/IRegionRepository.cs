@@ -1,4 +1,6 @@
-﻿namespace Walks.API.Repositories
+﻿using Walks.API.Models.Domain;
+
+namespace Walks.API.Repositories
 {
     public interface IRegionRepository
 	{
@@ -6,7 +8,7 @@
         /// Return all regions including records marked as deleted and closed
         /// </summary>
         /// <returns>Models.Domain.Region</returns>
-        Task<ICollection<Models.Domain.Region>> GetAllRegionsAsync();
+        Task<ICollection<Region>> GetAllRegionsAsync();
 
         /// <summary>
         /// Return all regions including records not marked as deleted

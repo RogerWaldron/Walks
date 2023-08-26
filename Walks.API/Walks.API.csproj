@@ -31,6 +31,7 @@
     <None Remove="Repositories\" />
     <None Remove="Repositories\Contracts\" />
     <None Remove="Repositories\Region\" />
+    <None Remove="Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -44,5 +45,6 @@
     <Folder Include="Repositories\" />
     <Folder Include="Repositories\Contracts\" />
     <Folder Include="Repositories\Region\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 </Project>

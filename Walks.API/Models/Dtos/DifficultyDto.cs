@@ -1,9 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Walks.API.Models.Domain
+namespace Walks.API.Models.Dtos
 {
-	public class Difficulty
+	public class DifficultyDto
 	{
         [Key]
         public int Id { get; set; }

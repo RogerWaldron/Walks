@@ -1,7 +1,5 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using Walks.API.Data;
-using Walks.API.Models;
 using Walks.API.Models.Domain;
 using Walks.API.Models.Dtos;
 using Walks.API.Repositories;
@@ -30,6 +28,8 @@ namespace Walks.API.Services.RegionService
                     _response.Success = false;
                     _response.Data = null;
                     _response.State = ValidStates.Exists;
+
+                    return _response;
                 }
 
                 Region _newRegion = new()
@@ -37,22 +37,26 @@ namespace Walks.API.Services.RegionService
                     GUID = Guid.NewGuid(),
                     RegionName = regionCreateDto.RegionName,
                     Code = regionCreateDto.Code,
+                    RegionImgUrl = regionCreateDto.RegionImgUrl,
                     CreatedDate = DateTimeOffset.UtcNow,
-                    IsClosed = false,
-                    IsDeleted = false
+                    IsClosed = regionCreateDto.IsClosed,
+                    IsDeleted = false,
+                    Walks = new List<Walk>()
                 };
+
 
                 if (!await _repository.CreateRegionAsync(_newRegion))
                 {
                     _response.Success = false;
                     _response.Data = null;
-                    _response.Error = "Repository Error";
+                    _response.State = ValidStates.Repository;
 
                     return _response;
                 }
 
+                var _created = await _repository.GetRegionByGuidAsync(_newRegion.GUID);
                 _response.Success = true;
-                _response.Data = _mapper.Map<RegionDto>(_newRegion);
+                _response.Data = _mapper.Map<RegionDto>(_created);
                 _response.State = ValidStates.Created;
             }
             catch (Exception ex)
@@ -109,6 +113,7 @@ namespace Walks.API.Services.RegionService
         public async Task<ServiceResponse<RegionDto>> GetRegionByIdAsync(int id)
         {
             ServiceResponse<RegionDto> _response = new();
+
             try
             {
                 var _region = await _repository.GetRegionByIdAsync(id);
@@ -116,6 +121,7 @@ namespace Walks.API.Services.RegionService
                 if (_region == null)
                 {
                     _response.Success = false;
+                    _response.Data = null;
                     _response.State = ValidStates.NotFound;
 
                     return _response;
@@ -143,6 +149,7 @@ namespace Walks.API.Services.RegionService
             try
             {
                 var _regions = await _repository.GetRegionsAsync();
+
                 List<Region> _regionsDto = new();
 
                 _response.Success = true;
@@ -166,7 +173,7 @@ namespace Walks.API.Services.RegionService
 
             try
             {
-                var _regionExists = await _repository.GetRegionByGuidAsync(regionUpdateDto.GUID);
+                Region _regionExists = await _repository.GetRegionByGuidAsync(regionUpdateDto.GUID);
 
                 if (_regionExists == null)
                 {
@@ -205,6 +212,13 @@ namespace Walks.API.Services.RegionService
             }
 
             return _response;
+        }
+
+        public async Task<int> GetRegionIdByGuidAsync(Guid Guid)
+        {
+            Region _region = await _repository.GetRegionByGuidAsync(Guid);
+
+            return _region.Id;
         }
     }
 }

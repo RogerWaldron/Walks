@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Walks.API.Models.Domain;
 
-namespace Walks.API.Models.Domain
+namespace Walks.API.Models.Dtos
 {
-    public class Walk
+    public class WalkCreateDto
 	{
-        [Key]
-        public int Id { get; set; }
         [Required]
         public Guid GUID { get; set; }
         [Required]
@@ -16,10 +15,8 @@ namespace Walks.API.Models.Domain
         [Display(Name = "WalkName")]
         public required string WalkName { get; set; }
         public required string Description { get; set; }
-        [Range(1, 10000)]
         public double? DistanceInKm { get; set; }
         public string? WalkImgUrl { get; set; }
-        public bool IsDeleted { get; set; }
         public bool IsClosed { get; set; }
 
         public DateTimeOffset CreatedDate { get; set; }

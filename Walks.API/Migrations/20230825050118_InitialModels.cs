@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Walks.API.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreated : Migration
+    public partial class InitialModels : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,8 +15,10 @@ namespace Walks.API.Migrations
                 name: "Difficulties",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,10 +29,15 @@ namespace Walks.API.Migrations
                 name: "Regions",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GUID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RegionName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RegionImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    RegionImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    IsClosed = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,13 +48,18 @@ namespace Walks.API.Migrations
                 name: "Walks",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GUID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    WalkName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DistanceInKm = table.Column<double>(type: "float", nullable: false),
+                    DistanceInKm = table.Column<double>(type: "float", nullable: true),
                     WalkImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DifficultyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RegionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    IsClosed = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    DifficultyId = table.Column<int>(type: "int", nullable: false),
+                    WalkId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -59,11 +71,10 @@ namespace Walks.API.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Walks_Regions_RegionId",
-                        column: x => x.RegionId,
+                        name: "FK_Walks_Regions_WalkId",
+                        column: x => x.WalkId,
                         principalTable: "Regions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -72,9 +83,9 @@ namespace Walks.API.Migrations
                 column: "DifficultyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Walks_RegionId",
+                name: "IX_Walks_WalkId",
                 table: "Walks",
-                column: "RegionId");
+                column: "WalkId");
         }
 
         /// <inheritdoc />
