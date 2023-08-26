@@ -1,12 +1,9 @@
-﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Walks.API.Models.Domain;
 
 namespace Walks.API.Models.Dtos
 {
-	public class WalkDto
+    public class WalkDto
 	{
         [Required]
         public Guid GUID { get; set; }
@@ -22,7 +19,7 @@ namespace Walks.API.Models.Dtos
         public bool IsClosed { get; set; }
 
         [ForeignKey("DifficultyId")]
-        public DifficultyDto Difficulty { get; set; }
+        public required DifficultyDto Difficulty { get; set; }
     }
 }
 

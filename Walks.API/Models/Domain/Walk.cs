@@ -1,10 +1,9 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Walks.API.Models.Domain
 {
-	public class Walk
+    public class Walk
 	{
         [Key]
         public int Id { get; set; }
@@ -26,7 +25,7 @@ namespace Walks.API.Models.Domain
         public DateTimeOffset CreatedDate { get; set; }
 
         [ForeignKey("DifficultyId")]
-        public Difficulty Difficulty { get; set; }
+        public required Difficulty Difficulty { get; set; }
     }
 }
 
