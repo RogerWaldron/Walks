@@ -17,6 +17,7 @@ namespace Walks.API.Models.Domain
         [Display(Name = "WalkName")]
         public required string WalkName { get; set; }
         public required string Description { get; set; }
+        [Range(1, 10000)]
         public double? DistanceInKm { get; set; }
         public string? WalkImgUrl { get; set; }
         public bool IsDeleted { get; set; }
