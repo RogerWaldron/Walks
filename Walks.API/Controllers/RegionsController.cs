@@ -88,6 +88,9 @@ namespace Walks.API.Controllers
                 return Ok(_response);
             }
 
+            if(_response.Data == null)
+                return StatusCode(StatusCodes.Status500InternalServerError, ModelState);
+
             var _id = await _regionService.GetRegionIdByGuidAsync(_response.Data.GUID);
 
             return CreatedAtAction(nameof(GetById), new { regionId = _id }, _response);
