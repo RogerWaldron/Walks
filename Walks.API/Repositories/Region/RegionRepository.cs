@@ -50,7 +50,9 @@ namespace Walks.API.Repositories
 
         public async Task<ICollection<Region>> GetAllRegionsAsync()
         {
-            return await _dataContext.Regions.Include("Walk").ToListAsync();
+            return await _dataContext.Regions
+                .Include(r => r.Walks)
+                .ToListAsync();
         }
 
         public async Task<ICollection<Region>> GetDeletedRegionsAsync()
@@ -60,39 +62,47 @@ namespace Walks.API.Repositories
 
         public async Task<Region?> GetRegionByGuidAsync(Guid GUID)
         {
-            return await _dataContext.Regions.Include("Walk").FirstOrDefaultAsync(r => r.GUID == GUID);
+            return await _dataContext.Regions
+                .Include(r => r.Walks)
+                .SingleOrDefaultAsync(r => r.GUID == GUID);
         }
 
         public async Task<Region?> GetRegionByIdAsync(int Id)
         {
-            return await _dataContext.Regions.FirstAsync(r => r.Id == Id);
+            return await _dataContext.Regions.FindAsync(Id);
         }
 
         public async Task<ICollection<Region>> GetRegionsAsync()
         {
-            return await _dataContext.Regions.Where(r => r.IsDeleted == false).ToListAsync();
+            return await _dataContext.Regions
+                .Where(r => r.IsDeleted == false)
+                .ToListAsync();
         }
 
         public async Task<bool> RegionExistsAsync(int Id)
         {
-            return await _dataContext.Regions.AnyAsync(r => r.Id == Id);
+            return await _dataContext.Regions
+                .AnyAsync(r => r.Id == Id);
         }
 
         public async Task<bool> RegionExistsAsync(string RegionName)
         {
-            return await _dataContext.Regions.AnyAsync(r => r.RegionName.Contains(RegionName));
+            return await _dataContext.Regions
+                .AnyAsync(r => r.RegionName.Contains(RegionName));
         }
 
         public async Task<bool> UpdateRegionAsync(Region region)
         {
-            await _dataContext.Regions.AddAsync(region);
+            _dataContext.Regions.Update(region);
 
             return await IsSuccessful();
         }
 
         public async Task<ICollection<Region>> GetClosedRegionsAsync()
         {
-            return await _dataContext.Regions.Where(r => r.IsClosed == true).ToListAsync();
+            return await _dataContext.Regions
+                .Where(r => r.IsClosed == true)
+                .ToListAsync();
         }
 
         private async Task<bool> IsSuccessful()
